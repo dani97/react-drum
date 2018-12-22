@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 import './Key.css';
 
 class Key extends Component {
+
+    static propTypes = {
+        keyName: PropTypes.string.isRequired,
+        sound: PropTypes.string.isRequired,
+        playSound: PropTypes.bool.isRequired
+    };
+
+    static defaultProps = {
+        playSound: false
+    }
+
     constructor(props) {
         super(props);
         this.playSound = this.playSound.bind(this);
