@@ -1,4 +1,15 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application is a react implementation of Wes Bos https://javascript30.com excercise. Please feel free to enhance the application by submitting issues and pull requests
+
+## Components
+
+- KeyStateProvider (uses React 16.3 Context Api)
+- Drum
+- Key
+
+## Future Works
+
+- Update to React 16.6 context Api 
 
 ## Available Scripts
 
