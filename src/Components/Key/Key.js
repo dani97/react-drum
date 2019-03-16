@@ -1,55 +1,38 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 import './Key.css';
 
-class Key extends Component {
-
-    static propTypes = {
-        keyName: PropTypes.string.isRequired,
-        sound: PropTypes.string.isRequired,
-        playSound: PropTypes.bool.isRequired
-    };
-
-    static defaultProps = {
-        playSound: false
+const Key = props => {
+    var [audio] = useState(new Audio(require(`../../Assets/sounds/${props.sound}`)));
+    var [isPlaying, setIsPlaying] = useState(false);
+    const playSound = function() {
+        audio.currentTime = 0;
+        audio.play();
+        setIsPlaying(true);
     }
 
-    constructor(props) {
-        super(props);
-        this.playSound = this.playSound.bind(this);
-        this.handleTransition = this.handleTransition.bind(this);
-        this.audio = new Audio(require(`../../Assets/sounds/${this.props.sound}`));
-        this.state  = {
-            playing: false
-        };
-    }
-    playSound() {
-        this.audio.currentTime = 0;
-        this.audio.play();
-        this.setState({
-            playing: true
-        });
+    const handleTransition = function() {
+        setIsPlaying(false);
     }
 
-    handleTransition() {
-        this.setState({
-            playing: false
-        });
-    }
+    useEffect(() => {
+        playSound();
+    },[props.playSound]);
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.playSound === this.props.playSound) return;
-        this.playSound();
-    }
 
-    render() {
-        var classes = `key ${this.state.playing?'playing':''}`;
-        return (
-            <div className={classes} onClick={this.playSound} onTransitionEnd={this.handleTransition} >
-                <span className="keycode"> {this.props.keyName} </span>
-            </div>
-        );
-    }
+    var classes = `key ${isPlaying?'playing':''}`;
+    return (
+        <div className={classes} onClick={playSound} onTransitionEnd={handleTransition} >
+            <span className="keycode"> {props.keyName} </span>
+        </div>
+    );
+    
+}
+
+Key.propTypes = {
+    keyName: PropTypes.string.isRequired,
+    sound: PropTypes.string.isRequired,
+    playSound: PropTypes.bool.isRequired
 }
 
 export default Key;
